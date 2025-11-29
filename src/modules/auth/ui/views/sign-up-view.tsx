@@ -19,6 +19,7 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 
 const signUpFormSchema = z
   .object({
@@ -58,11 +59,33 @@ export const SignUpView = () => {
         name: data.name,
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
       {
         onSuccess: () => {
           setPending(false);
           router.push("/");
+        },
+        onError: ({ error }) => {
+          setError(error.message);
+          setPending(false);
+        },
+      }
+    );
+  };
+
+  const onSocialSubmit = (provider: "google" | "github") => {
+    setError(null);
+    setPending(true);
+
+    authClient.signIn.social(
+      {
+        provider: provider,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
         },
         onError: ({ error }) => {
           setError(error.message);
@@ -162,7 +185,7 @@ export const SignUpView = () => {
                   type="submit"
                   className="w-full cursor-pointer"
                 >
-                  Sign In
+                  Sign Up
                 </Button>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                   <span className="bg-card text-muted-foreground relative z-10 px-2">
@@ -175,16 +198,18 @@ export const SignUpView = () => {
                     variant="outline"
                     type="button"
                     className="w-full cursor-pointer"
+                    onClick={() => onSocialSubmit("google")}
                   >
-                    Google
+                    <FaGoogle />
                   </Button>
                   <Button
                     disabled={pending}
                     variant="outline"
                     type="button"
                     className="w-full cursor-pointer"
+                    onClick={() => onSocialSubmit("github")}
                   >
-                    Git
+                    <FaGithub />
                   </Button>
                 </div>
                 <div className="text-center text-sm">
