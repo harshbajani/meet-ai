@@ -54,6 +54,7 @@ export const SignInView = () => {
         },
         onError: ({ error }) => {
           setError(error.message);
+          setPending(false);
         },
       }
     );
