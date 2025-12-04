@@ -1,9 +1,11 @@
-import { ErrorState } from "@/components/ErrorState";
-import { LoadingState } from "@/components/LoadingState";
 import { auth } from "@/lib/auth";
 import { loadSearchParams } from "@/modules/agents/params";
 import { ListHeader } from "@/modules/agents/ui/components/ListHeader";
-import { AgentsView } from "@/modules/agents/ui/views/agents-view";
+import {
+  AgentsView,
+  AgentsViewError,
+  AgentsViewLoading,
+} from "@/modules/agents/ui/views/agents-view";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { headers } from "next/headers";
@@ -46,21 +48,3 @@ const Page = async ({ searchParams }: Props) => {
 };
 
 export default Page;
-
-export const AgentsViewLoading = () => {
-  return (
-    <LoadingState
-      title="Loading Agents"
-      description="Please wait while we load your agents."
-    />
-  );
-};
-
-export const AgentsViewError = () => {
-  return (
-    <ErrorState
-      title="Error Loading Agents"
-      description="Please try again later."
-    />
-  );
-};

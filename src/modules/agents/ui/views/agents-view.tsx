@@ -7,8 +7,12 @@ import { columns } from "../components/Columns";
 import { EmptyState } from "@/components/EmptyState";
 import { useAgentsFilters } from "../../hooks/use-agents-filters";
 import { DataPagination } from "../components/DataPagination";
+import { useRouter } from "next/navigation";
+import { LoadingState } from "@/components/LoadingState";
+import { ErrorState } from "@/components/ErrorState";
 
 export const AgentsView = () => {
+  const router = useRouter();
   const [filters, setFilters] = useAgentsFilters();
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(
@@ -17,7 +21,11 @@ export const AgentsView = () => {
 
   return (
     <div className="flex-1  pb-4 px-4 md:px-8 flex flex-col gap-y-4">
-      <DataTable columns={columns} data={data.items} />
+      <DataTable
+        columns={columns}
+        data={data.items}
+        onRowClick={(row) => router.push(`/agents/${row.id}`)}
+      />
       <DataPagination
         page={filters.page}
         totalPages={data.totalPages}
@@ -30,5 +38,23 @@ export const AgentsView = () => {
         />
       )}
     </div>
+  );
+};
+
+export const AgentsViewLoading = () => {
+  return (
+    <LoadingState
+      title="Loading Agents"
+      description="Please wait while we load your agents."
+    />
+  );
+};
+
+export const AgentsViewError = () => {
+  return (
+    <ErrorState
+      title="Error Loading Agents"
+      description="Please try again later."
+    />
   );
 };
