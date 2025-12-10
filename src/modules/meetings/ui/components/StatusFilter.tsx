@@ -1,0 +1,76 @@
+import { CommandSelect } from "@/components/CommandSelect";
+import {
+  CircleX,
+  CircleCheck,
+  ClockArrowUp,
+  Video,
+  Loader,
+} from "lucide-react";
+import { MeetingStatus } from "../../types";
+import { useMeetingsFilters } from "../../hooks/use-meetings-filters";
+
+const options = [
+  {
+    id: MeetingStatus.Upcoming,
+    value: MeetingStatus.Upcoming,
+    children: (
+      <div className="flex items-center gap-x-2 capitalize">
+        <ClockArrowUp />
+        {MeetingStatus.Upcoming}
+      </div>
+    ),
+  },
+  {
+    id: MeetingStatus.Completed,
+    value: MeetingStatus.Completed,
+    children: (
+      <div className="flex items-center gap-x-2 capitalize">
+        <CircleCheck />
+        {MeetingStatus.Completed}
+      </div>
+    ),
+  },
+  {
+    id: MeetingStatus.Active,
+    value: MeetingStatus.Active,
+    children: (
+      <div className="flex items-center gap-x-2 capitalize">
+        <Video />
+        {MeetingStatus.Active}
+      </div>
+    ),
+  },
+  {
+    id: MeetingStatus.Processing,
+    value: MeetingStatus.Processing,
+    children: (
+      <div className="flex items-center gap-x-2 capitalize">
+        <Loader />
+        {MeetingStatus.Processing}
+      </div>
+    ),
+  },
+  {
+    id: MeetingStatus.Cancelled,
+    value: MeetingStatus.Cancelled,
+    children: (
+      <div className="flex items-center gap-x-2 capitalize">
+        <CircleX />
+        {MeetingStatus.Cancelled}
+      </div>
+    ),
+  },
+];
+
+export const StatusFilter = () => {
+  const [filters, setFilters] = useMeetingsFilters();
+  return (
+    <CommandSelect
+      placeholder="Status"
+      className="h-9"
+      options={options}
+      onSelect={(value) => setFilters({ status: value as MeetingStatus })}
+      value={filters.status ?? ""}
+    />
+  );
+};
