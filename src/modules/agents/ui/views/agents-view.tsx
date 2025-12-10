@@ -5,11 +5,11 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { columns } from "../components/Columns";
 import { EmptyState } from "@/components/EmptyState";
 import { useAgentsFilters } from "../../hooks/use-agents-filters";
-import { DataPagination } from "../components/DataPagination";
 import { useRouter } from "next/navigation";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { DataTable } from "@/components/DataTable";
+import { DataPagination } from "@/components/DataPagination";
 
 export const AgentsView = () => {
   const router = useRouter();
