@@ -13,7 +13,7 @@ import {
 import { and, eq, not } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import { generateAvatarUri } from "@/lib/avatar";
 import { streamChat } from "@/lib/stream-chat";
 
@@ -177,7 +177,7 @@ export async function POST(req: NextRequest) {
     const [existingMeeting] = await db
       .select()
       .from(meetings)
-      .where(eq(meetings.id, channelId), eq(meetings.status, "completed"));
+      .where(and(eq(meetings.id, channelId), eq(meetings.status, "completed")));
 
     if (!existingMeeting) {
       return NextResponse.json({ error: "Meeting not found" }, { status: 404 });

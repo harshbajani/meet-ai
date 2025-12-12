@@ -157,7 +157,7 @@ export const meetingsRouter = createTRPCRouter({
       };
     }),
   getTranscript: protectedProcedure
-    .input(z.object({ id: z.string }))
+    .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
       const [existingMeeting] = await db
         .select()
