@@ -16,6 +16,7 @@ import { UpcomingState } from "../components/UpcomingState";
 import { ActiveState } from "../components/ActiveState";
 import { CancelledState } from "../components/CancelledState";
 import { ProcessingState } from "../components/ProcessingState";
+import { CompletedState } from "../components/CompletedState";
 
 export const MeetingIdView = ({ meetingId }: { meetingId: string }) => {
   const trpc = useTRPC();
@@ -70,7 +71,7 @@ export const MeetingIdView = ({ meetingId }: { meetingId: string }) => {
           onRemove={handleRemoveMeeting}
         />
         {isCancelled && <CancelledState />}
-        {isCompleted && <div>Completed</div>}
+        {isCompleted && <CompletedState data={data} />}
         {isProcessing && <ProcessingState />}
         {isUpcoming && (
           <UpcomingState
