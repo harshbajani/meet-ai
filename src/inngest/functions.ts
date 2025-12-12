@@ -40,7 +40,8 @@ export const meetingsProcessing = inngest.createFunction(
       return fetch(event.data.transcriptUrl).then((res) => res.text());
     });
 
-    const transcript = step.run("parse-transcript", async () => {
+    const transcript = await step.run("parse-transcript", async () => {
+      // JSONL.parse returns an array of T; pass the item type, not an array type
       return JSONL.parse<StreamTranscriptItem>(response);
     });
 
